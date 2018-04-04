@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="ec3aae00-bc20-4781-b64a-7cd323d9efec" name="172.28.11.40" url="http://172.28.11.40">
+        <fileTransfer host="172.28.11.40" port="22" rootFolder="/root/K2_Back" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

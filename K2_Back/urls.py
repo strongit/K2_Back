@@ -18,6 +18,7 @@ from rest_framework.routers import DefaultRouter
 # from django.contrib import admin
 import xadmin
 from users.views import UserViewSet
+import rest_framework
 
 
 router = DefaultRouter()
@@ -27,5 +28,6 @@ router.register(r'users', UserViewSet, base_name="users")
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
+    url(r'^restframework', include('rest_framework.urls', namespace='djangorestframework')),
     url(r'^', include(router.urls)),
 ]

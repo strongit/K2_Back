@@ -13,7 +13,7 @@
 """
 import xadmin
 from xadmin import views
-from .models import VerifyCode
+from .models import UserProfile
 
 
 class BaseSetting(object):
@@ -22,15 +22,15 @@ class BaseSetting(object):
 
 
 class GlobalSettings(object):
-    site_title = "慕学生鲜后台"
-    site_footer = "mxshop"
+    site_title = "固升小程序后台"
+    site_footer = "固升骨健康"
     # menu_style = "accordion"
 
 
 class VerifyCodeAdmin(object):
-    list_display = ['code', 'mobile', "add_time"]
+    list_display = ['nickname', 'avataurl', "gender", "city", "province", "country"]
 
 
-xadmin.site.register(VerifyCode, VerifyCodeAdmin)
+# xadmin.site.register(UserProfile, VerifyCodeAdmin)
 xadmin.site.register(views.BaseAdminView, BaseSetting)
 xadmin.site.register(views.CommAdminView, GlobalSettings)
