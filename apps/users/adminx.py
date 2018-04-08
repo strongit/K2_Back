@@ -27,10 +27,5 @@ class GlobalSettings(object):
     # menu_style = "accordion"
 
 
-class VerifyCodeAdmin(object):
-    list_display = ['nickname', 'avataurl', "gender", "city", "province", "country"]
-
-
-# xadmin.site.register(UserProfile, VerifyCodeAdmin)
 xadmin.site.register(views.BaseAdminView, BaseSetting)
 xadmin.site.register(views.CommAdminView, GlobalSettings)

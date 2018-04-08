@@ -18,16 +18,21 @@ from rest_framework.routers import DefaultRouter
 # from django.contrib import admin
 import xadmin
 from users.views import UserViewSet
+from courses.views import TeacherViewSet
 import rest_framework
+import pdb
 
 
 router = DefaultRouter()
 
 #配置users的url
+# pdb.set_trace()
 router.register(r'users', UserViewSet, base_name="users")
+router.register(r'teachers', TeacherViewSet, base_name="teachers")
+
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
-    url(r'^restframework', include('rest_framework.urls', namespace='djangorestframework')),
+    url(r'^restframework/', include('rest_framework.urls', namespace='djangorestframework')),
     url(r'^', include(router.urls)),
 ]

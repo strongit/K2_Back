@@ -21,3 +21,7 @@ class UserProfile(AbstractUser):
 
     def __str__(self):
         return self.nickname
+
+
+class Question(models.Model):
+    pass
