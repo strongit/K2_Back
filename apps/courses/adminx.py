@@ -12,8 +12,7 @@
 @time: 2017/7/4 17:04
 """
 import xadmin
-from xadmin import views
-from courses.models import TeacherProfile, CourseBase, CourseImage, CourseDetail
+from courses.models import TeacherProfile, CourseBase, CourseImage, CourseDetail, Comment, Reply, Question, Answer, Transaction
 
 
 class TeacherAdmin(object):
@@ -25,14 +24,29 @@ class CourseAdmin(object):
 
 
 class CourseDetailAdmin(object):
-    list_display = ['course', 'subtitle', 'add_time', 'play_num', 'up_num', 'cost_money']
+    list_display = ['course', 'subtitle', 'play_time', 'play_num', 'up_num', 'cost_money']
 
 
 class CourseImageAdmin(object):
     list_display = ['index', 'course', 'image', 'add_time']
 
 
+class CommentAdmin(object):
+    list_display = ['course', 'user', 'content', 'create_time']
+
+
+class ReplyAdmin(object):
+    list_display = ['course', 'user', 'content', 'comment_reply']
+
+
+class TransactionAdmin(object):
+    list_display = ['course', 'user', 'cost', 'create_time']
+
+
+xadmin.site.register(Comment, CommentAdmin)
+xadmin.site.register(Reply, ReplyAdmin)
 xadmin.site.register(TeacherProfile, TeacherAdmin)
 xadmin.site.register(CourseBase, CourseAdmin)
 xadmin.site.register(CourseDetail, CourseDetailAdmin)
 xadmin.site.register(CourseImage, CourseImageAdmin)
+xadmin.site.register(Transaction, TransactionAdmin)

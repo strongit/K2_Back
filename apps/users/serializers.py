@@ -5,7 +5,7 @@ from users.models import UserProfile
 User = get_user_model()
 
 
-class UserSerializer(serializers.Serializer):
+class UserSerializer(serializers.ModelSerializer):
     """用户序列化类"""
 
     class Meta:

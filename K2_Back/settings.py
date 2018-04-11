@@ -91,9 +91,17 @@ WSGI_APPLICATION = 'K2_Back.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',  # __init__.py 加入 pymysql.install_as_MySQLdb()
+        'NAME': "k2_back",
+        'USER': 'root',
+        'PASSWORD': "21ops.com",
+        'HOST': "127.0.0.1",
+        'OPTIONS': {'init_command': 'SET storage_engine=INNODB, sql_mode=STRICT_TRANS_TABLES'}
     }
 }
 

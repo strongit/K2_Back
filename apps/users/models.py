@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
 # Create your models here.
 
 
@@ -19,9 +18,20 @@ class UserProfile(AbstractUser):
         verbose_name = "用户"
         verbose_name_plural = verbose_name
 
-    def __str__(self):
-        return self.nickname
+    # def __str__(self):
+    #     return self.nickname  # TypeError: __str__ returned non-string (type NoneType)
 
 
-class Question(models.Model):
-    pass
+class ShareDetail(models.Model):
+    """
+    记录有效分享明细
+    """
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name="分享用户")
+    shareTicket = models.CharField(verbose_name="shareTicket", max_length=255)
+    groupName = models.CharField(verbose_name="转发群名", max_length=255)
+    openGId = models.CharField(verbose_name="转发群id", max_length=255)  # 当 type="groupName" 时生效, 群id
+
+    class Meta:
+        verbose_name = "分享明细"
+        verbose_name_plural = verbose_name
+

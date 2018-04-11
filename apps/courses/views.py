@@ -28,8 +28,14 @@ class TeacherViewSet(mixins.CreateModelMixin,  mixins.UpdateModelMixin, mixins.R
     #         return []
 
     def list(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
@@ -38,7 +44,6 @@ class TeacherViewSet(mixins.CreateModelMixin,  mixins.UpdateModelMixin, mixins.R
         teacher = self.perform_create(serializer.data)
 
         re_dict = serializer.data
-        print(serializer.data)
         payload = jwt_payload_handler(teacher)
         re_dict["token"] = jwt_encode_handler(payload)
         re_dict["name"] = teacher.user.nickname if teacher.user.nickname else teacher.user.username

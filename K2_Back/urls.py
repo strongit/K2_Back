@@ -28,7 +28,7 @@ router = DefaultRouter()
 #配置users的url
 # pdb.set_trace()
 router.register(r'users', UserViewSet, base_name="users")
-router.register(r'teachers', TeacherViewSet, base_name="teachers")
+router.register(r'doctors', TeacherViewSet, base_name="doctors")
 
 
 urlpatterns = [

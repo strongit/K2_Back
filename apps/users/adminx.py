@@ -13,7 +13,7 @@
 """
 import xadmin
 from xadmin import views
-from .models import UserProfile
+from .models import ShareDetail
 
 
 class BaseSetting(object):
@@ -27,5 +27,9 @@ class GlobalSettings(object):
     # menu_style = "accordion"
 
 
+class ShareDetailAdmin(object):
+    list_display = ['user', 'shareTicket', 'groupName']
+
+xadmin.site.register(ShareDetail, ShareDetailAdmin)
 xadmin.site.register(views.BaseAdminView, BaseSetting)
 xadmin.site.register(views.CommAdminView, GlobalSettings)

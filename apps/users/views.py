@@ -22,7 +22,7 @@ class CustomBackend(ModelBackend):
             return None
 
 
-class UserViewSet(mixins.CreateModelMixin,  mixins.UpdateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class UserViewSet(mixins.CreateModelMixin,  mixins.ListModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """用户视图，允许`create()`, `retrieve()`, `update()`"""
     serializer_class = UserSerializer
     queryset = UserProfile.objects.all()
@@ -48,7 +48,6 @@ class UserViewSet(mixins.CreateModelMixin,  mixins.UpdateModelMixin, mixins.Retr
         self.perform_create(serializer)
 
         re_dict = serializer.data
-        print(re_dict)
         # payload = jwt_payload_handler(user)
         # re_dict["token"] = jwt_encode_handler(payload)
         # re_dict["name"] = user.nickname if user.nickname else user.username
@@ -61,3 +60,14 @@ class UserViewSet(mixins.CreateModelMixin,  mixins.UpdateModelMixin, mixins.Retr
 
     def perform_create(self, serializer):
         serializer.save()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
