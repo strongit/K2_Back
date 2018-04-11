@@ -43,6 +43,9 @@ class CourseDetail(models.Model):
         verbose_name = "课程详细信息"
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return self.course.title + "：" + self.subtitle
+
 
 class TeacherProfile(models.Model):
     """
@@ -55,6 +58,9 @@ class TeacherProfile(models.Model):
     class Meta:
         verbose_name = "讲师"
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.user.username
 
 
 class Comment(models.Model):
@@ -70,6 +76,9 @@ class Comment(models.Model):
         verbose_name = "评论表"
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return self.content
+
 
 class Reply(models.Model):
     """
@@ -83,6 +92,9 @@ class Reply(models.Model):
     class Meta:
         verbose_name = "回复表"
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.content
 
 
 class Up(models.Model):

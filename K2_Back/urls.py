@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from rest_framework.routers import DefaultRouter
 # from django.contrib import admin
 import xadmin
-from users.views import UserViewSet
+from users.views import UserViewSet, getuserinfo
 from courses.views import TeacherViewSet
 import rest_framework
 import pdb
@@ -34,5 +34,6 @@ router.register(r'doctors', TeacherViewSet, base_name="doctors")
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
     url(r'^restframework/', include('rest_framework.urls', namespace='djangorestframework')),
+    url(r'^users/getuserinfo/', getuserinfo),
     url(r'^', include(router.urls)),
 ]

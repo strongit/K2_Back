@@ -1,12 +1,14 @@
 from users.models import UserProfile
 from users.serializers import UserSerializer, UserRegSerializer
 from rest_framework import viewsets, mixins, permissions, status, authentication
-from rest_framework_jwt.serializers import jwt_encode_handler, jwt_payload_handler
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
+import urllib.request
 # Create your views here.
+appid = 'wx8fa41e5f33e*****'
+secret = '47d4ed43a683f800e66169c09dd*****'
 
 
 class CustomBackend(ModelBackend):
@@ -20,6 +22,19 @@ class CustomBackend(ModelBackend):
                 return user
         except Exception as e:
             return None
+
+
+@api_view(['GET', 'POST'])
+def getuserinfo(request):
+    """登录凭证校验"""
+    if request.method == 'POST':
+        code = request.data
+        url = 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&' \
+              'grant_type=authorization_code' % (appid, secret, code['data'])
+        r = urllib.request.urlopen(url)
+        return Response(r.read(), status=status.HTTP_201_CREATED)
+    else:
+        return Response(None)
 
 
 class UserViewSet(mixins.CreateModelMixin,  mixins.ListModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
