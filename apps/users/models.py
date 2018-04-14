@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from datetime import datetime
 # Create your models here.
 
 
@@ -20,6 +21,21 @@ class UserProfile(AbstractUser):
 
     # def __str__(self):
     #     return self.nickname  # TypeError: __str__ returned non-string (type NoneType)
+
+
+class TransactionDetail(models.Model):
+    """
+    用户交易明细
+    """
+    from courses.models import CourseDetail
+    course = models.ForeignKey(CourseDetail, verbose_name='交易课程', on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, verbose_name='交易用户', on_delete=models.CASCADE)
+    cost = models.IntegerField(verbose_name="交易金额(0代表是分享用户)", null=True, blank=True)
+    create_time = models.DateTimeField(default=datetime.now, verbose_name="交易产生时间")
+
+    class Meta:
+        verbose_name = "交易明细"
+        verbose_name_plural = verbose_name
 
 
 class ShareDetail(models.Model):

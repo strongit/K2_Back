@@ -5,10 +5,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
+# from utils.WXBizDataCrypt import WXBizDataCrypt
 import urllib.request
 # Create your views here.
-appid = 'wx8fa41e5f33e*****'
-secret = '47d4ed43a683f800e66169c09dd*****'
 
 
 class CustomBackend(ModelBackend):
@@ -27,11 +26,18 @@ class CustomBackend(ModelBackend):
 @api_view(['GET', 'POST'])
 def getuserinfo(request):
     """登录凭证校验"""
+    appId = 'wx4f4bc4dec97d474b'
+    secret = '47d4ed43a683f800e66169c09dd*****'
+    sessionKey = 'tiihtNczf5v6AKRyjwEUhQ=='
+    encryptedData = 'CiyLU1Aw2KjvrjMdj8YKliAjtP4gsMZMQmRzooG2xrDcvSnxIMXFufNstNGTyaGS9uT5geRa0W4oTOb1WT7fJlAC+oNPdbB+3hVbJSRgv+4lGOETKUQz6OYStslQ142dNCuabNPGBzlooOmB231qMM85d2/fV6ChevvXvQP8Hkue1poOFtnEtpyxVLW1zAo6/1Xx1COxFvrc2d7UL/lmHInNlxuacJXwu0fjpXfz/YqYzBIBzD6WUfTIF9GRHpOn/Hz7saL8xz+W//FRAUid1OksQaQx4CMs8LOddcQhULW4ucetDf96JcR3g0gfRK4PC7E/r7Z6xNrXd2UIeorGj5Ef7b1pJAYB6Y5anaHqZ9J6nKEBvB4DnNLIVWSgARns/8wR2SiRS7MNACwTyrGvt9ts8p12PKFdlqYTopNHR1Vf7XjfhQlVsAJdNiKdYmYVoKlaRv85IfVunYzO0IKXsyl7JCUjCpoG20f0a04COwfneQAGGwd5oa+T8yO5hzuyDb/XcxxmK01EpqOyuxINew=='
+    iv = 'r7BXXKkLb8qrSNn05n0qiA=='
     if request.method == 'POST':
         code = request.data
         url = 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&' \
-              'grant_type=authorization_code' % (appid, secret, code['data'])
+              'grant_type=authorization_code' % (appId, secret, code['data'])
         r = urllib.request.urlopen(url)
+        # pc = WXBizDataCrypt(appId, sessionKey)
+        # print(pc.decrypt(encryptedData, iv))
         return Response(r.read(), status=status.HTTP_201_CREATED)
     else:
         return Response(None)

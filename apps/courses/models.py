@@ -5,12 +5,44 @@ from DjangoUeditor.models import UEditorField
 
 User = get_user_model()
 
+class CourseTag(models.Model):
+    """
+    课程类别
+    """
+    tag_name = models.CharField(max_length=30, verbose_name="类名")
+    tag_desc = models.CharField(max_length=255, null=True, blank=True, verbose_name="类名描述")
+    tag_index = models.IntegerField(default=0, unique=True, verbose_name="权重排序")  # 数字越小权重越大
+
+    class Meta:
+        verbose_name = "课程类别"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.tag_name
+
+
+class TeacherProfile(models.Model):
+    """
+    讲师
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="讲师")
+    description = models.CharField(max_length=300, null=True, blank=True, verbose_name="讲师简介")
+
+    class Meta:
+        verbose_name = "讲师"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.user.username
+
 
 class CourseBase(models.Model):
     """
     基础课程类
     """
-    title = models.CharField(max_length=30, verbose_name="课程标题")
+    course_tag = models.ForeignKey(CourseTag, on_delete=models.CASCADE, verbose_name="课程分类")
+    course_teacher = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE, verbose_name="课程医师")
+    course_title = models.CharField(max_length=30, verbose_name="课程标题")
     course_desc = UEditorField(verbose_name=u"课程介绍", imagePath="course/images/", width=1000, height=300,
                                filePath="course/files/", default='')
     add_time = models.DateTimeField(default=datetime.now, verbose_name="课程添加时间")
@@ -25,7 +57,7 @@ class CourseBase(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.title
+        return self.course_title
 
 
 class CourseDetail(models.Model):
@@ -44,23 +76,7 @@ class CourseDetail(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.course.title + "：" + self.subtitle
-
-
-class TeacherProfile(models.Model):
-    """
-    讲师
-    """
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="讲师")
-    description = models.CharField(max_length=300, null=True, blank=True, verbose_name="讲师简介")
-    course = models.ForeignKey(CourseBase, on_delete=models.CASCADE, verbose_name="课程列表")
-
-    class Meta:
-        verbose_name = "讲师"
-        verbose_name_plural = verbose_name
-
-    def __str__(self):
-        return self.user.username
+        return self.course.course_title + "：" + self.subtitle
 
 
 class Comment(models.Model):
@@ -134,21 +150,7 @@ class Share(models.Model):
     class Meta:
         verbose_name = "记录分享表"
         verbose_name_plural = verbose_name
-
-
-class Transaction(models.Model):
-    """
-    课程交易流水
-    """
-    course = models.ForeignKey(CourseDetail, verbose_name='交易课程', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, verbose_name='交易用户', on_delete=models.CASCADE)
-    cost = models.IntegerField(verbose_name="交易金额(0代表是分享用户)", null=True, blank=True)
-    create_time = models.DateTimeField(default=datetime.now, verbose_name="交易产生时间")
-
-    class Meta:
-        verbose_name = "交易流水"
-        verbose_name_plural = verbose_name
-
+        
 
 class Question(models.Model):
     """

@@ -13,7 +13,8 @@
 """
 import xadmin
 from xadmin import views
-from .models import ShareDetail
+from .models import ShareDetail, TransactionDetail
+# from courses.models import Transaction
 
 
 class BaseSetting(object):
@@ -30,6 +31,12 @@ class GlobalSettings(object):
 class ShareDetailAdmin(object):
     list_display = ['user', 'shareTicket', 'groupName']
 
+
+class TransactionDetailAdmin(object):
+    list_display = ['course', 'user', 'cost', 'create_time']
+
+
 xadmin.site.register(ShareDetail, ShareDetailAdmin)
+xadmin.site.register(TransactionDetail, TransactionDetailAdmin)
 xadmin.site.register(views.BaseAdminView, BaseSetting)
 xadmin.site.register(views.CommAdminView, GlobalSettings)
